@@ -1,0 +1,237 @@
+﻿\documentclass[10pt, conference, a4paper]{IEEEtran}
+\usepackage[UTF8]{ctex}
+\usepackage{amsmath, amssymb, amsfonts}
+\usepackage{graphicx}
+\usepackage{cite}
+\usepackage{booktabs}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage{cleveref}
+\geometry{left=1.5cm,right=1.5cm,top=2cm,bottom=2cm}
+
+\begin{document}
+
+\title{\textbf{和一为}:基于多节点热力旁路\textbf{和}时钟漂移的\textbf{一}种极限边缘洗浴行\textbf{为}调度策略\\
+\Large \textbf{WTF}: A Marginal Sho\textbf{W}erology Scheduling S\textbf{T}rategy Based on Multi-Terminal Thermal Bypass and Clock Dri\textbf{F}t}
+
+\author{\IEEEauthorblockN{1\textsuperscript{st} Wetfloor Caution}
+\IEEEauthorblockA{\textit{紫荆学生公寓1号楼5单元518A} \\
+\textit{华清大学 (Huaqing University)}\\
+北京, 中国 \\
+grange@example.com}
+\and
+\IEEEauthorblockN{2\textsuperscript{nd} Author A}
+\IEEEauthorblockA{\textit{紫荆学生公寓1号楼5单元517B} \\
+\textit{华清大学 (Huaqing University)}\\
+北京, 中国 \\
+authorA@example.com}
+\and
+\IEEEauthorblockN{3\textsuperscript{rd} Author B}
+\IEEEauthorblockA{\textit{紫荆学生公寓1号楼5单元517B} \\
+\textit{华清大学 (Huaqing University)}\\
+北京, 中国 \\
+authorB@example.com}
+}
+
+\maketitle
+
+\begin{abstract}
+在现代高等教育寄宿制环境中，学生的生理节律往往与后勤管理的物理限制产生不可调和的矛盾。华清大学紫荆学生公寓实行的“24:00 强制切断洗浴水源”政策，催生了大量非标洗浴行为。本文立足于“洗澡学（Showerology）”交叉学科，深入探讨了在极度缺乏水资源的时间边界上，个体如何完成基础身体清洁的科学问题。通过长达两个学期的田野调查与实证研究，本文首次系统性地提出了“计费终端时钟漂移延迟（Clock Drift Delay）”的数学模型，并揭示了停水后管道系统中的“残存热力池（Residual Thermal Pool, RTP）”物理现象。基于单间三个无隔板淋浴喷头的空间拓扑结构，本文创新性地设计了“多节点接力洗浴法（Multi-Terminal Relay Bathing, MTRB）”。实验数据表明，相较于传统的“听天由命”策略，本方法能将零点后的有效洗浴时间延长 15\% 至 45\%，显著降低了洗发水残留率。本文的研究为受限资源下的极限洗浴行为提供了坚实的理论基础与实践范式。
+\end{abstract}
+
+\begin{IEEEkeywords}
+洗澡学, 极限行为学, 时钟漂移, 残存热力池, 多节点接力, 紫荆公寓
+\end{IEEEkeywords}
+
+\section{引言 (Introduction)}
+
+\subsection{研究背景与动机}
+自华清大学紫荆学生公寓落成以来，其优越的住宿条件一直为外界所称道。然而，公寓管理方为提倡规律作息，严格执行了 24:00 淋浴间强制停水政策。如图~\ref{fig:bath_time} 所示，公寓楼长在淋浴间门上张贴了明确的规定，将每天的洗浴热水供应时间严格限制在 06:00 至 24:00。布告中提到，深夜洗澡产生的水声会影响其他同学的正常睡眠（即“夜半洗澡声，惊醒梦中人”），以此作为 24:00 强制停水政策的依据。然而不可忽视的客观现实是：高强度的课业压力往往迫使学生在深夜保持高度活跃。当“写完最后一行代码”的成就感与“浑身酸臭却面临停水”的恐惧感在 23:55 分交织时，学生群体面临着极大的心理与生理双重挑战。
+
+\begin{figure}[htbp]
+\centerline{\includegraphics[width=0.45\textwidth]{bath_time.jpg}} % 请确保文件名与你的图片一致
+\caption{紫荆学生公寓淋浴间的热水供应时间布告。图中明确规定了 24:00 停水的时间点，并说明了避免夜间水声扰民的初衷，以及每周的例行检修安排。}
+\label{fig:bath_time}
+\end{figure}
+
+在过去的数年中，学术界与学生群体针对“如何应对 24:00 停水期限（Deadline, DDL）”进行了零星的探索。然而，大多数策略仍停留在表层，如通过定闹钟提前洗浴等，这严重违背了学生自然的工作流。本课题组认为，解决这一矛盾的关键，不在于改变个人的作息习惯，而在于深入挖掘现有洗浴系统运行机制中的深层物理与逻辑漏洞，从而在极限时间边缘争取生存空间。
+
+\subsection{主要贡献}
+本文脱离了传统的洗浴规划学派，转向微观洗浴动力学与系统漏洞发掘，主要贡献涵盖以下三个维度：
+\begin{enumerate}
+    \item \textbf{时序维度的突破}：首次对紫荆公寓洗浴计费机器的“时间感知误差”进行了量化建模，论证了利用该误差进行合法延迟洗浴的可行性。
+    \item \textbf{物理维度的发现}：系统性地解释了“停水后冷水档出热水”这一反直觉现象的流体力学与热力学机制，提出了残存热力池（RTP）概念。
+    \item \textbf{空间维度的统筹}：利用紫荆公寓特有的三喷头无隔板空间布局，提出了接力式洗浴范式，并通过运动学方程评估了实施该范式的安全性边界。
+\end{enumerate}
+
+\section{相关研究 (Literature Review)}
+洗浴行为学（Showerology）作为一门探讨人类在受限水资源环境下的清洁行为的学科，近年来受到了一定的关注。我们将其主要流派归纳如下：
+
+\subsection{前置洗浴派 (Pre-Midnight School)}
+该学派主张通过行政命令或自我约束，将洗浴行为严格限制在 23:00 之前。文献 [1] 提出了一种基于强迫症心理暗示的提前洗浴模型。然而，该模型忽略了“洗完澡后再次出汗”的返工风险，导致总体清洁效率低下。
+
+\subsection{容器蓄水派 (Container Hoarding School)}
+部分学者主张在 23:50 左右利用脸盆、水桶等外部容器大量蓄存热水 [2]。尽管这种方法在理论上保证了水量的绝对充沛，但其存在显著的缺陷：一是占用寝室物理空间；二是蓄水过程中的热量散失极为迅速（尤其是在冬季的紫荆公寓）；三是缺乏淋浴水压，导致清洗粘稠类沐浴露的体验极差。
+
+\subsection{物理擦拭派 (Physical Wiping School)}
+在极端情况下，文献 [3] 提出了一种使用湿毛巾局部擦拭的应急方案。本课题组认为，这属于一种降维妥协，并未从根本上解决全身清洁的需求，不在本文的高质量洗浴讨论范畴之内。
+
+综上所述，现有文献均未能从洗浴系统本身的运行机制出发寻找破局之道。本文的提出，正是为了填补这一理论空白。
+
+\section{洗浴系统的物理与时序模型建模}
+
+为了深入分析极限边缘状态下的洗浴动态，本课题组对紫荆公寓的淋浴硬件系统进行了实地勘测与逆向工程分析，其核心硬件架构如图~\ref{fig:hardware_setup} 所示。系统整体部署于一个高湿度、低摩擦系数的封闭物理空间内，呈现典型的“无物理隔板三节点（Multi-Terminal）拓扑结构”（图~\ref{fig:hardware_setup} (a)）。每个独立的洗浴节点均由三个关键模块构成：作为流体最终输出端的顶置喷淋节点（图~\ref{fig:hardware_setup} (b)）、负责身份鉴权与时序控制的异步计费终端（图~\ref{fig:hardware_setup} (c)），以及作为底层流体力学调度枢纽的机械混水阀（图~\ref{fig:hardware_setup} (d)）。这套看似严密的硬件配置，恰恰为后续的“时钟漂移漏洞”与“残存热力池（RTP）”机制提供了物理温床。
+
+\begin{figure}[htbp]
+\centerline{\includegraphics[width=0.48\textwidth]{hardware.pdf}} % 请确保文件名与你的图片一致
+\caption{华清大学紫荆学生公寓淋浴系统硬件架构与实验环境。(a) 具备全局视野的无隔板三节点拓扑空间，为横向滑移提供了物理基础；(b) 顶置式末端流体输出节点（Terminal $S_i$）；(c) 存在时钟漂移漏洞的异步计费与时序控制终端；(d) 核心温度调节枢纽与物理旁路触发装置（即 RTP 释放阀）。}
+\label{fig:hardware_setup}
+\end{figure}
+
+\subsection{计费终端的异步时钟漂移}
+洗浴系统的水流控制依赖于墙壁上的智能计费打卡机，如图~\ref{fig:hardware_setup} (c)所示。理想情况下，该机器的内部时钟应与北京时间严格对齐。然而，实证观察表明，其内置晶振存在固有的老化与频率偏移，且系统并未配置网络时间协议（NTP）进行周期性校准。
+
+通常，公寓后勤系统仅在每学期开学初（记为 $T_0$）对机器进行一次人工复位初始化。随着学期时间 $d$（单位：天）的推移，打卡机显示的虚拟时间 $t_{virtual}$ 与绝对物理时间 $t_{real}$ 之间的误差逐渐累积。我们将这种现象定义为“时钟漂移”。
+
+定义物理时刻 24:00 为 $T_{ddl}$，打卡机实际切断水源的物理时刻为 $T_{cutoff}$。该时刻满足：
+\begin{equation}
+    T_{cutoff}(d) = T_{ddl} + \beta \cdot d + \mathcal{N}(0, \sigma^2)
+\end{equation}
+其中，$\beta$ 为单日正向时钟漂移常数（通常由于廉价晶振的振荡频率略慢于标准频率导致），$\mathcal{N}(0, \sigma^2)$ 代表因环境温度波动带来的高斯白噪声扰动。
+
+根据我们在 5 单元长达数月的记录数据拟合，到学期中后段（如第 10 周），$T_{cutoff}$ 往往能推迟至 00:04 甚至 00:05。这宝贵的几分钟，构成了本研究的第一层“时间护城河”。
+
+% 预留图片位置：图1 时钟漂移累积曲线
+\begin{figure}[htbp]
+\includegraphics[width=\linewidth]{fig1_clock_drift.pdf}
+\caption{学期内洗浴打卡机时钟漂移量积累实测曲线（实线为均值拟合，阴影带为置信区间）}
+\label{fig:clock_drift}
+\end{figure}
+
+\subsection{残存热力池（RTP）的物理机制}
+当 $T_{cutoff}$ 到达时，打卡机发送电信号关闭主热水管路的电磁阀。此时，常规意义上的“热水洗浴”宣告终结。然而，本课题组在绝望的探索中发现了系统的第二层漏洞。
+
+淋浴系统的混水阀前端与主管道之间，存在一段物理距离（即“死区体积”，Dead Zone Volume, $V_{dz}$）。同时，公寓的冷水管路往往不受 24:00 停水政策的严格限制。当用户强行将图~\ref{fig:hardware_setup} (d)所示的混水阀旋转至“纯冷水”档位最底端时，残余的水压会重新打通管路。此时出水的温度特征呈现出奇特的先热后冷现象。
+
+这一过程的物理实质是：冷水在喷出前，必须先将混水阀及附近死区管道内残留的水排空。残留水的初始温度 $T_{initial}$ 高度依赖于该喷头上一位使用者的离开时间。设上一次使用结束至当前时刻的空闲时长为 $\tau_{idle}$，根据牛顿冷却定律，残留水的温度 $T(\tau_{idle})$ 可表示为：
+\begin{equation}
+    T(\tau_{idle}) = T_{env} + (T_{hot} - T_{env}) e^{-k \tau_{idle}}
+\end{equation}
+其中，$T_{env}$ 为环境室温，$T_{hot}$ 为标准洗浴热水温度（约 42$^{\circ}$C），$k$ 为管道散热系数。
+
+当 $\tau_{idle}$ 较短（例如前人刚洗完不到 10 分钟），热量积攒充分，此时旋转至冷水档，系统会喷射出体积约为 $V_{dz}$ 的纯正热水。这股热水的持续时间 $t_{rtp}$ 通常在 1.5 秒至 3.5 秒之间。对于熟练的洗浴者而言，这短短几秒足以完成一次关键的身体泡沫冲洗动作。
+
+\section{多节点接力洗浴法 (MTRB)}
+
+在掌握了时序漏洞与物理漏洞后，我们将视线转向了紫荆公寓特有的空间拓扑结构。1号楼5单元的每一个淋浴间内，均并排设置了 3 个毫无物理遮挡的淋浴喷头（记为 $S_1, S_2, S_3$）。这种开放式布局虽然在初次体验时会带来一定的心理压力，但它为我们的极限操作提供了完美的物理温床。
+
+\subsection{策略推演与动作分解}
+在 24:00 后停水的极端环境下，单个喷头的 RTP 储量（约 2 秒热水）显然不足以支撑全套洗浴流程。为此，本课题组的 Grange 与 A、B 两位同学通过反复实践，总结出了一套利用单人独占三个喷头残余水的“接力洗浴法”。该算法的伪代码如算法~\ref{alg:mtrb} 所示：
+
+\begin{algorithm}
+\caption{多节点接力洗浴算法 (MTRB)}
+\begin{algorithmic}[1]
+\REQUIRE 当前处于 $T_{cutoff}$ 时刻，主管道已停水，个体身上仍有沐浴露泡沫。
+\STATE 初始化位置至喷头 $S_1$ 下方
+\STATE \textbf{第一阶段：节点 1 压榨}
+\STATE 快速将 $S_1$ 阀门旋转至冷水档极限位置
+\STATE 利用 $S_1$ 喷出的最初 2 秒 RTP 热水冲洗头部与上半身
+\STATE 当感受到水温断崖式下降（冷水到达）时，立即关闭 $S_1$
+\STATE \textbf{第二阶段：横向滑移}
+\STATE 以平稳且低重心的姿态横向移动至喷头 $S_2$
+\STATE \textbf{第三阶段：节点 2 压榨}
+\STATE 开启 $S_2$ 冷水档，利用 $S_2$ 独有的 RTP 热水冲洗背部及躯干
+\STATE 关闭 $S_2$，滑移至 $S_3$
+\STATE \textbf{第四阶段：末端节点压榨与冷水收尾}
+\STATE 开启 $S_3$ 冷水档，利用 $S_3$ 热水冲洗下肢
+\STATE 忍受随之而来的纯冷水，完成最后的深层清洁与清醒仪式
+\end{algorithmic}
+\label{alg:mtrb}
+\end{algorithm}
+
+\subsection{运动学安全性边界评估}
+需要特别强调的是，阶段二和阶段四的“横向滑移”操作存在巨大的物理风险。紫荆公寓的瓷砖在沾满沐浴露与水的情况下，其动摩擦因数 $\mu_k$ 会降至极低值（约 0.1 甚至更低）。
+设相邻喷头间距为 $L$，洗浴者的质量为 $m$，横向移动的初始推力为 $F$。为避免发生侧滑摔倒导致的严重安全事故（在洗澡间摔倒通常伴随极高的社会性死亡风险），个人的移动速度 $v$ 必须受到严格控制。转弯或急停时的向心力方程要求：
+\begin{equation}
+    \frac{m v^2}{r} \leq \mu_k m g
+\end{equation}
+因此，我们强烈建议在执行接力法时，双脚应保持贴地拖行（Shuffle Walk），严禁出现双脚同时腾空跳跃的位移动作。
+
+% 预留图片位置：图2 三喷头接力流转示意图
+\begin{figure}[htbp]
+\centerline{\includegraphics[width=0.48\textwidth]{mtrb.pdf}}
+\caption{单间三喷头空间拓扑与 MTRB 策略滑移路径示意图}
+\label{fig:spatial_routing}
+\end{figure}
+
+\section{实证评估与结果分析 (Evaluation)}
+
+为了验证本框架的有效性，我们在 2024-2025 学年进行了长期的非干预性田野实测。
+
+\subsection{实验设置}
+\begin{itemize}
+    \item \textbf{测试对象}：Grange, Author A, Author B（均具备良好的身体素质与一定的抗寒能力）。
+    \item \textbf{测试环境}：1号楼5单元淋浴间，气温介于 10$^{\circ}$C 至 28$^{\circ}$C 之间。
+    \item \textbf{评价指标}：
+    \begin{enumerate}
+        \item \textbf{泡沫残留率 (Foam Residue Rate, FRR)}：洗浴结束后身体表面可察觉的滑腻感面积比例，越低越好。
+        \item \textbf{主观从容度 (Subjective Composure Index, SCI)}：采用 1-10 分李克特量表，评估洗浴者在面临断水时的心理恐慌程度与动作连贯性，越高越好。
+    \end{enumerate}
+\end{itemize}
+
+\subsection{结果与分析}
+如表 I 所示，我们对比了三种情况：“传统卡点听天由命”（单喷头，不切换）、“仅利用时钟漂移单喷头洗浴”以及“综合 MTRB 接力法”。
+
+\begin{table}[htbp]
+\caption{不同策略下的洗浴质量评估数据总结}
+\begin{center}
+% 使用 resizebox 将表格宽度限制为单栏宽度 (\columnwidth)
+\resizebox{\columnwidth}{!}{
+\begin{tabular}{lccc}
+\toprule
+\textbf{采用策略} & \textbf{平均延长热水时长 (秒)} & \textbf{平均 FRR (\%)} & \textbf{SCI (1-10)} \\
+\midrule
+无干预 (对照组) & 0.0 & 65.2\% & 2.1 \\
+仅利用时钟漂移 & N/A (取决于日期) & 32.5\% & 5.4 \\
+单节点冷水档利用 & 2.3 & 18.7\% & 6.8 \\
+\textbf{三节点 MTRB} & \textbf{7.1} & \textbf{3.4\%} & \textbf{8.9} \\
+\bottomrule
+\end{tabular}
+} % resizebox 结束大括号
+\label{tab:results}
+\end{center}
+\end{table}
+
+
+数据清晰地表明，MTRB 策略将残存热水时间从单喷头的均值 2.3 秒大幅提升至 7.1 秒。这 7 秒钟构成了洗浴行为学上的“黄金救援期”。使用该策略后，泡沫残留率大幅下降至 3.4\%，基本满足了现代人类对清洁卫生的底线要求。同时，SCI 指数的飙升说明，掌握该方法的个体在面对系统制裁时，重新夺回了对生活的控制感，不再陷入被动挨打的恐慌。
+
+\section{讨论 (Discussion)}
+
+\subsection{博弈论视角的解读}
+“卡点洗澡”本质上是学生个体与后勤管理系统之间的一场非对称博弈。管理方试图通过硬性切断物理资源来规训个体的作息；而学生则通过发掘底层软件（时钟不同步）与物理硬件（死区水管）的 Bug 来进行无声的抗争。每一次成功的 MTRB 操作，都是一次对科层制管理的微小胜利。
+
+\subsection{心理学增益}
+实验记录显示，三位作者在成功实施 MTRB 策略后，均报告了显著的多巴胺分泌增加现象。这种在规则边缘游走、在千钧一发之际完成清洁的成就感，甚至提升了随后继续熬夜写代码的代码质量。我们可以初步断定，适度的极端洗浴挑战具有提神醒脑的辅助功效。
+
+\subsection{环境与季节局限性}
+本策略的实施效果受季节影响显著。在严冬（12月至2月），北京自来水管网基础水温极低，且 RTP 热水流失后带来的冷水冲击会对人体心血管系统造成极大负荷。因此，我们建议在冬季谨慎使用阶段四的冷水收尾操作，并辅以高强度的快速物理擦干。
+
+\section{结论与未来展望 (Conclusion)}
+
+本文立足于华清大学紫荆学生公寓的实际情况，创立了研究深夜极限洗浴行为的“洗澡学”理论框架。通过细致入微的观察，我们剖析了计费终端时钟漂移的自然规律，揭示了停水后管道系统的残存热力机制，并在此基础上提出了一套行之有效的多节点接力洗浴法（MTRB）。实证数据充分证明了该方法的有效性与实操性。
+
+面向未来，本课题组将进一步研究更为宏大的洗浴调度问题。例如，当 518A 与 517B 的同学同时面临停水危机时，如何突破单间的物理隔离，设计跨寝室（Inter-Dorm）的六节点联合调配协议，将是我们下一步攻克的洗澡学难题。
+
+\section*{致谢 (Acknowledgment)}
+感谢华清大学后勤部无意中留下的时钟校准漏洞与管道设计死区，正是这些不完美，激发了我们对探索物理世界边界的无限渴望。同时感谢 紫荆公寓一号楼五楼的同学们在无数个深夜中，与我们共同在这片湿滑的地砖上翩翩起舞。
+
+\begin{thebibliography}{00}
+\bibitem{ref1} 张三等, ``论当代大学生作息管理与生理节律的冲突,'' \textit{华清大学社会学学报}, vol. 12, no. 3, pp. 45-52, 2022.
+\bibitem{ref2} 李四, ``受限空间下的流体力学应用与容器蓄水效率分析,'' \textit{后勤工程学报}, vol. 8, pp. 112-118, 2021.
+\bibitem{ref3} 王五, ``极端干旱条件下的皮肤微观清洁策略,'' \textit{洗浴科学与技术}, vol. 4, no. 1, pp. 5-9, 2023.
+\bibitem{ref4} Grange, Author A, Author B. ``紫荆公寓5单元淋浴水压波动实测报告（内部通讯）,'' 2024.
+\end{thebibliography}
+
+\end{document}
