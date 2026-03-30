@@ -24,7 +24,6 @@
     }
   </style>
 
-  
   <script>
     window.MathJax = {
       tex: {
@@ -40,7 +39,7 @@
 
 <nav class="navbar" role="navigation" aria-label="main navigation">
   <div class="navbar-brand">
-    <a class="navbar-item" href="#top"><strong>WTF Framework</strong></a>
+    <a class="navbar-item" href="#top"><strong>和一为</strong></a>
   </div>
   <div id="main-navbar" class="navbar-menu">
     <div class="navbar-end" style="flex-grow: 1; justify-content: flex-end; padding-right: 1rem;">
@@ -48,6 +47,7 @@
       <a class="navbar-item" href="#hardware">Hardware Vulnerability</a>
       <a class="navbar-item" href="#method">MTRB Algorithm</a>
       <a class="navbar-item" href="#results">Results</a>
+      <a class="navbar-item" href="#acknowledgment">Acknowledgment</a>
       <a class="navbar-item" href="#bibtex">BibTeX</a>
     </div>
   </div>
@@ -87,18 +87,18 @@
           <div class="column has-text-centered" style="margin-top: 20px;">
             <div class="publication-links">
               <span class="link-block">
-                <a href="#" class="external-link button is-normal is-rounded is-dark">
+                <a href="./Zijing_BATHE.pdf" target="_blank" rel="noopener noreferrer" class="external-link button is-normal is-rounded is-dark">
                   <span>📄 Paper (PDF)</span>
                 </a>
               </span>
               <span class="link-block">
-                <a href="#" class="external-link button is-normal is-rounded is-dark">
+                <a href="https://github.com/Grange007/bathe" target="_blank" rel="noopener noreferrer" class="external-link button is-normal is-rounded is-dark">
                   <span>💻 Code (GitHub)</span>
                 </a>
               </span>
               <span class="link-block">
                 <a href="#" class="external-link button is-normal is-rounded is-dark">
-                  <span>📊 Dataset (Zijing-120)</span>
+                  <span>🚿 Dataset (Zijing-120)</span>
                 </a>
               </span>
             </div>
@@ -112,8 +112,8 @@
 <section class="hero teaser">
   <div class="container is-max-desktop has-text-centered">
     <img src="./static/images/bath_time.jpg" alt="紫荆公寓洗浴时间告示" style="max-width: 60%; border: 1px solid #ccc; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
-    <p class="caption" style="text-align: center; max-width: 80%; margin: 15px auto;">
-      <strong>Figure 1. Service Level Agreement (SLA).</strong> 官方发布的 24:00 强制停水硬性边界（Hard Deadline）与声学约束（“夜半洗澡声，惊醒梦中人”）。这是整项“洗澡学（Showerology）”研究的制度起点与核心挑战。
+    <p class="caption" style="max-width: 80%; margin: 15px auto;">
+      <strong>Figure 1. Hot Water Supply Announcement.</strong> 紫荆学生公寓淋浴间的热水供应时间公告。图中明确规定了24:00停水的时间点，并说明了避免夜间水声扰民的初衷，以及每周的例行检修安排。
     </p>
   </div>
 </section>
@@ -128,7 +128,7 @@
             针对华清大学紫荆学生公寓 24:00 强制停水带来的极端 Deadline 挑战，本文提出了一套基于软硬件协同漏洞利用的极限洗浴调度框架。有别于传统的洗浴规划，我们首次将系统底层的残存热力池（Residual Thermal Pool, RTP）机制与计费终端时钟漂移模型相结合，提出了一种基于多节点热力旁路<strong>和</strong>时钟漂移的<strong>一</strong>种极限边缘洗浴行<strong>为</strong>调度策略（简称 <strong>和一为</strong> 策略）。
           </p>
           <p>
-            在英文语境下，该策略的全称为 A Marginal Sho<strong>w</strong>erology Scheduling S<strong>t</strong>rategy Based on Multi-Terminal Thermal Bypass and Clock Dri<strong>f</strong>t，为便于学术交流，我们提取其核心拓扑特征缩写为 <strong>WTF</strong> 策略。实验表明，相较于 Baseline（放弃洗浴），WTF 策略能将零点后的有效洗浴时间显著延长，并在降低洗发水残留率方面展现出了卓越的鲁棒性。
+            在英文语境下，该策略的全称为 A Marginal Sho<strong>w</strong>erology Scheduling S<strong>t</strong>rategy Based on Multi-Terminal Thermal Bypass and Clock Dri<strong>f</strong>t，为便于学术交流，我们提取其核心拓扑特征缩写为 <strong>WTF</strong> 策略。实验表明，相较于 Baseline（放弃洗浴），WTF 策略能将零点后的有效洗浴时间延长 15% 至 45%，并在降低洗发水残留率方面展现出了卓越的鲁棒性。
           </p>
         </div>
       </div>
@@ -147,7 +147,7 @@
       </p>
 
       <img src="./static/images/hardware.png" class="paper-figure" alt="淋浴系统硬件架构与实验环境">
-      <p class="caption">
+      <p class="caption" style="max-width: 80%; margin: 15px auto;">
         <strong>Figure 2. System Hardware Architecture.</strong> 华清大学紫荆学生公寓淋浴系统硬件架构与实验环境。(a) 无隔板三节点拓扑空间；(b) 顶置式末端流体输出节点；(c) 存在时钟漂移漏洞的异步计费与时序控制终端；(d) 核心温度调节枢纽与 RTP 释放阀。
       </p>
 
@@ -163,7 +163,7 @@
       </p>
 
       <img src="./static/images/clock_drift.png" class="paper-figure" alt="时钟漂移实测曲线">
-      <p class="caption">
+      <p class="caption" style="max-width: 80%; margin: 15px auto;">
         <strong>Figure 3. Clock Drift Accumulation.</strong> 120 天周期内的计费机器时钟偏移实测散点图与线性拟合。这宝贵的几分钟构成了本策略的第一层“时间护城河”。
       </p>
 
@@ -186,13 +186,14 @@
       </p>
       
       <ul>
-        <li><strong>Phase 1: 节点 1 压榨。</strong> 在断水瞬间，极速开启 $S_1$ 冷水档，利用前 2 秒 RTP 热水冲洗头部。感受到断崖式降温后立即关闭。</li>
-        <li><strong>Phase 2: 横向滑移 (Lateral Shift)。</strong> <span class="warning-text">[Safety Warning]</span> 由于沾满沐浴露的瓷砖动摩擦因数 $\mu_k \approx 0.1$，个体必须采用低重心贴地拖行（Shuffle Walk）移动至 $S_2$。严禁双脚腾空跳跃，运动学安全方程需满足：$mv^2 / r \leq \mu_k mg$。</li>
-        <li><strong>Phase 3: 节点 2 与 3 接力。</strong> 依次激活 $S_2$ 与 $S_3$，独占各自的 RTP 储量，分别完成躯干与下肢的清醒冲洗仪式。</li>
+        <li><strong>第一阶段：节点 1 压榨。</strong> 在断水瞬间，快速将 $S_1$ 阀门旋转至冷水档极限位置，利用前 2 秒 RTP 热水冲洗头部与上半身。感受到断崖式降温后立即关闭。</li>
+        <li><strong>第二阶段：横向滑移 (Lateral Shift)。</strong> <span class="warning-text">[Safety Warning]</span> 由于沾满沐浴露的瓷砖动摩擦因数极低（$\mu_k \approx 0.1$），个体必须采用低重心贴地拖行（Shuffle Walk）移动至 $S_2$。严禁双脚腾空跳跃，运动学安全方程需满足：$mv^2 / r \leq \mu_k mg$。</li>
+        <li><strong>第三阶段：节点 2 压榨。</strong> 开启 $S_2$ 冷水档，利用 $S_2$ 独有的 RTP 热水冲洗背部及躯干，随后关闭并滑移至 $S_3$。</li>
+        <li><strong>第四阶段：末端节点压榨与冷水收尾。</strong> 开启 $S_3$ 冷水档冲洗下肢，并忍受随之而来的纯冷水，完成最后的深层清洁与清醒仪式。</li>
       </ul>
 
       <img src="./static/images/mtrb.png" class="paper-figure" alt="三喷头空间拓扑与 MTRB 滑移路径">
-      <p class="caption">
+      <p class="caption" style="max-width: 80%; margin: 15px auto;">
         <strong>Figure 4. Spatial Routing for MTRB.</strong> 单间三喷头空间拓扑与多节点接力洗浴法的滑移路径示意。洗浴者通过 S<sub>1</sub> → S<sub>2</sub> → S<sub>3</sub> 的次序依次释放各节点残余热水，并以低重心横向滑移控制侧滑风险。
       </p>
     </div>
@@ -256,16 +257,32 @@
 
 <hr class="container is-max-desktop">
 
+<section class="section" id="acknowledgment">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Acknowledgment</h2>
+    <div class="content has-text-justified">
+      <p>
+        感谢在深夜使用华清大学紫荆学生公寓 1 号楼 4 单元淋浴间的同学们，你们在流水声中的欢声畅聊，曾伴我们度过无数个熬夜的夜晚。同时，诚挚感谢华清大学公寓管理人员制定的 24:00 停水政策，正是这种对“健康作息”的要求，激发了本文作者探索极限洗浴时间边界的无限潜能。
+      </p>
+      <p>
+        此外，我们在此无意致谢那些目睹本文作者“卡点洗澡”后便盲目跟风的投机同学。你们不仅在零点前最危险的极限边缘挤占了本就匮乏的热力资源，更未对底层洗浴机制展开任何深入调研。这种浮躁“治澡态度”，实为“澡界”同仁所不齿。本文的公开发表，亦旨在向此类跟风澡友普及先进且严谨的极限洗浴范式，扫清流毒，以正澡风。
+      </p>
+    </div>
+  </div>
+</section>
+
+<hr class="container is-max-desktop">
+
 <section class="section" id="bibtex">
   <div class="container is-max-desktop content">
     <h2 class="title is-3">BibTeX</h2>
     <p>如果你觉得本篇“洗澡学”论文对你在深夜 DDL 前的清洁工作有所启发，请考虑引用我们：</p>
-    <pre style="color: #333; background-color: #f5f5f5; padding: 20px; border-radius: 5px; font-size: 14px;"><code>@inproceedings{grange2026wtf,
+    <pre style="color: #333; background-color: #f5f5f5; padding: 20px; border-radius: 5px; font-size: 14px;"><code>@inproceedings{daxindihua2026wtf,
   title={WTF: A Marginal Showerology Scheduling Strategy Based on Multi-Terminal Thermal Bypass and Clock Drift},
-  author={Grange and Author, A and Author, B},
+  author={大心地滑 and 咸鸭蛋 and Bro, X},
   booktitle={Proceedings of the Bathing Acceleration in TsingHua Zijing Showeroom Ecosystem (BATHE)},
   year={2026},
-  address={Beijing, China},
+  address={Zijing 1# Building, HuaTsing University},
   note={Best Paper Award Candidate}}</code></pre>
   </div>
 </section>
@@ -276,7 +293,6 @@
       <div class="column is-8">
         <div class="content is-small" style="color: #777;">
           <p>
-            感谢华清大学后勤部无意中留下的时钟校准漏洞与管道设计死区，正是这些不完美，激发了我们对探索物理世界边界的无限渴望。<br>
             Website template heavily inspired by <a href="https://github.com/nerfies/nerfies.github.io" target="_blank">Nerfies</a>, but heavily stripped down for the classic academic minimalism.
           </p>
         </div>
