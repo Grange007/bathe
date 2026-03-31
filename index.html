@@ -125,10 +125,11 @@
         <h2 class="title is-3">Abstract</h2>
         <div class="content has-text-justified">
           <p>
-            针对华清大学紫荆学生公寓 24:00 强制停水带来的极端 Deadline 挑战，本文提出了一套基于软硬件协同漏洞利用的极限洗浴调度框架。有别于传统的洗浴规划，我们首次将系统底层的残存热力池机制与计费终端时钟漂移模型相结合，提出了一种基于多节点热力旁路<strong>和</strong>时钟漂移的<strong>一</strong>种极限边缘洗浴行<strong>为</strong>调度策略（简称 <strong>和一为</strong> 策略）。
+            在现代高等教育寄宿制环境中，学生的生理节律往往与后勤管理对“健康”作息的要求产生不可调和的矛盾。华清大学紫荆学生公寓实行的”24:00 强制切断洗浴水源”政策，催生了大量非标洗浴行为。本文立足于“洗澡学（Showerology）”交叉学科，深入探讨了在极度缺乏水资源的时间边界上，个体如何完成基础身体清洁的科学问题。
           </p>
+
           <p>
-            在英文语境下，该策略全称为 A Marginal Sho<strong>w</strong>erology Scheduling S<strong>t</strong>rategy Based on Multi-Terminal Thermal Bypass and Clock Dri<strong>f</strong>t，简称 <strong>WTF</strong>。实验表明，相较于 Baseline（放弃洗浴），和一为策略能显著延长零点后的有效洗浴时间，降低沐浴露残留率，为“卡点洗澡”提供了坚实的理论指导。
+            通过长达两个学期的田野调查与实证研究，本文首次系统性地提出了<strong> “计费终端时钟漂移延迟（ClockDrift Delay）” </strong>的数学模型，并揭示了停水后管道系统中的<strong> “残存热力池（Residual Thermal Pool, RTP）” </strong>物理现象。基于单间三个无隔板淋浴喷头的空间拓扑结构，本文创新性地设计了<strong> “多节点接力洗浴法（Multi-Terminal Relay Bathing,MTRB）” </strong>。实验数据表明，相较于传统的“听天由命”策略，本方法能将零点后的有效洗浴时间延长15%至45%，显著降低了沐浴露残留率。本文的研究为高校受限资源下的极限洗浴行为提供了坚实的理论基础与实践范式。
           </p>
         </div>
       </div>
@@ -148,7 +149,7 @@
 
       <h3 class="title is-5">1. 时钟漂移漏洞 (Clock Drift)</h3>
       <p>
-        洗浴计费终端缺乏网络时间同步机制。剥离其技术表象，该漏洞的本质是：<strong>热水计费终端的走时比标准时间更慢，其实际执行“强制停水”的物理时刻往往晚于北京时间 24:00。</strong> 随着学期推进，内置晶振的误差逐渐累积，打卡机上的时间会一天天地变得越来越晚。其实际停水时间 $T_{cutoff}$ 可建模为：
+        洗浴系统的水流控制依赖于墙壁上的智能计费终端。理想情况下，该机器的内部时钟应与北京时间严格对齐。然而，实证观察表明，其内置晶振存在固有的老化与频率偏移，且系统并未配置网络时间协议进行周期性校准。<strong>实验发现，热水计费终端的走时比标准时间更慢，其实际执行“强制停水”的物理时刻往往晚于北京时间 24:00。</strong> 随着学期推进，内置晶振的误差逐渐累积，计费终端的时间会一天天地变得越来越晚。其实际停水时间 $T_{cutoff}$ 可建模为：
       </p>
       <div class="equation">
         T<sub>cutoff</sub>(d) = T<sub>ddl</sub> + β · d + N(0, σ²)
@@ -159,17 +160,17 @@
 
       <img src="./static/images/clock_drift.png" class="paper-figure" alt="时钟漂移实测曲线">
       <p class="caption" style="max-width: 80%; margin: 15px auto;">
-        <strong>Figure 2. Clock Drift Accumulation.</strong> 学期内洗浴打卡机时钟漂移量积累实测曲线（实线为均值拟合，阴影带为置信区间）。每天逐渐变晚的打卡机，构成了本策略的第一层“时间护城河”。
+        <strong>Figure 2. Clock Drift Accumulation.</strong> 学期内热水计费终端时钟漂移量积累实测曲线（实线为均值拟合，阴影带为置信区间）。每天逐渐变晚的计费终端，构成了本策略的第一层“时间护城河”。
       </p>
 
       <h3 class="title is-5" style="margin-top: 30px;">2. 残存热力池机制 (Residual Thermal Pool, RTP)</h3>
       <p>
-        即便突破了时间护城河，主水源终将被切断。此时，极冷档位可触发冷水管路的物理旁路。简而言之，<strong>即使在系统彻底切断热水之后，只要将淋浴阀门一把拧到“最冷水”的极限档位，不仅系统会重新喷射出冷水，还能凭借剩余水压，强行将管道死区（Dead Zone Volume, $V_{dz}$）内积攒的高温水挤出，让使用者有机会重新获得几秒宝贵的热水洗浴。</strong> 其水温依赖于上一位使用者的离开时间 $\tau_{idle}$，在冰冷的自来水降临前，这为洗浴者提供了极其宝贵的 1.5 ~ 3.5 秒纯热水补偿。
+        淋浴系统的混水阀前端与主管道之间，存在一段物理距离（即“死区体积”，Dead Zone Volume，$V_{dz}$ ），在切断热水供应后其中依旧能封存部分热水。同时，公寓的冷水管路往往不受 24:00 停水政策的严格限制。当用户强行将混水阀旋转至“纯冷水”档位最底端时，残余的水压会重新打通管路。由于冷水在喷出前，必须先将混水阀及附近死区管道内残留的水排空，<strong>即使在系统彻底切断主热水管之后，只要将淋浴阀门一把拧到“最冷水”的极限档位，系统不仅会持续喷出冷水，还会凭借剩余水压，强行将这段死区管道内积攒的高温水挤出，让使用者有机会重新获得几秒宝贵的热水洗浴。</strong>其水温依赖于上一位使用者的离开时间$\tau_{idle}$，在冰冷的自来水降临前，这为洗浴者提供了极其宝贵的1.5~3.5秒纯热水补偿。
       </p>
       
       <img src="./static/images/hardware.png" class="paper-figure" alt="淋浴系统硬件架构与实验环境">
       <p class="caption" style="max-width: 80%; margin: 15px auto;">
-        <strong>Figure 3. System Hardware Architecture.</strong> 华清大学紫荆学生公寓淋浴系统硬件架构与实验环境。(a) 具备全局视野的无隔板三节点拓扑空间，为横向滑移提供了物理基础；(b) 顶置式末端流体输出节点；(c) 存在时钟漂移漏洞的异步计费与时序控制终端；(d) 核心温度调节枢纽与物理旁路触发装置（即 RTP 释放阀）。
+        <strong>Figure 3. System Hardware Architecture.</strong> 华清大学紫荆学生公寓淋浴系统硬件架构与实验环境。(a) 具备全局视野的无隔板三节点拓扑空间，为横向滑移提供了物理基础；(b) 顶置式末端流体输出节点；(c) 存在时钟漂移漏洞的热水计费终端；(d) 核心温度调节枢纽与物理旁路触发装置（即 RTP 释放阀）。
 
       </p>
 
