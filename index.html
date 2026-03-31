@@ -113,7 +113,7 @@
   <div class="container is-max-desktop has-text-centered">
     <img src="./static/images/bath_time.jpg" alt="紫荆公寓洗浴时间告示" style="max-width: 60%; border: 1px solid #ccc; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
     <p class="caption" style="max-width: 80%; margin: 15px auto;">
-      <strong>Figure 1. Hot Water Supply Announcement.</strong> 紫荆学生公寓淋浴间的热水供应时间公告。图中明确规定了24:00停水的时间点，并说明了避免夜间水声扰民的初衷，以及每周的例行检修安排。
+      <strong>Figure 1. Hot Water Supply Announcement.</strong> 紫荆学生公寓淋浴间的热水供应时间公告。图中明确规定了 24:00 停水的时间点，并说明了避免夜间水声扰民的初衷。这是我们展开各项极限挑战的现实边界。
     </p>
   </div>
 </section>
@@ -125,10 +125,10 @@
         <h2 class="title is-3">Abstract</h2>
         <div class="content has-text-justified">
           <p>
-            针对华清大学紫荆学生公寓 24:00 强制停水带来的极端 Deadline 挑战，本文提出了一套基于软硬件协同漏洞利用的极限洗浴调度框架。有别于传统的洗浴规划，我们首次将系统底层的残存热力池（Residual Thermal Pool, RTP）机制与计费终端时钟漂移模型相结合，提出了一种基于多节点热力旁路<strong>和</strong>时钟漂移的<strong>一</strong>种极限边缘洗浴行<strong>为</strong>调度策略（简称 <strong>和一为</strong> 策略）。
+            针对华清大学紫荆学生公寓 24:00 强制停水带来的极端 Deadline 挑战，本文提出了一套基于软硬件协同漏洞利用的极限洗浴调度框架。有别于传统的洗浴规划，我们首次将系统底层的残存热力池机制与计费终端时钟漂移模型相结合，提出了一种基于多节点热力旁路<strong>和</strong>时钟漂移的<strong>一</strong>种极限边缘洗浴行<strong>为</strong>调度策略（简称 <strong>和一为</strong> 策略）。
           </p>
           <p>
-            在英文语境下，该策略的全称为 A Marginal Sho<strong>w</strong>erology Scheduling S<strong>t</strong>rategy Based on Multi-Terminal Thermal Bypass and Clock Dri<strong>f</strong>t，为便于学术交流，我们提取其核心拓扑特征缩写为 <strong>WTF</strong> 策略。实验表明，相较于 Baseline（放弃洗浴），WTF 策略能将零点后的有效洗浴时间延长 15% 至 45%，并在降低洗发水残留率方面展现出了卓越的鲁棒性。
+            在英文语境下，该策略全称为 A Marginal Sho<strong>w</strong>erology Scheduling S<strong>t</strong>rategy Based on Multi-Terminal Thermal Bypass and Clock Dri<strong>f</strong>t，简称 <strong>WTF</strong>。实验表明，相较于 Baseline（放弃洗浴），和一为策略能显著延长零点后的有效洗浴时间，降低沐浴露残留率，为“卡点洗澡”提供了坚实的理论指导。
           </p>
         </div>
       </div>
@@ -143,34 +143,36 @@
     <h2 class="title is-3 has-text-centered">Hardware Vulnerability & Temporal Modeling</h2>
     <div class="content has-text-justified">
       <p>
-        为了实现极限状态下的成功洗浴，我们对紫荆公寓洗浴系统的底层客观环境进行了精确建模。研究发掘了两大核心漏洞：<strong>异步时钟漂移（Asynchronous Clock Drift）</strong> 与 <strong>残存热力池（Residual Thermal Pool, RTP）</strong>。
-      </p>
-
-      <img src="./static/images/hardware.png" class="paper-figure" alt="淋浴系统硬件架构与实验环境">
-      <p class="caption" style="max-width: 80%; margin: 15px auto;">
-        <strong>Figure 2. System Hardware Architecture.</strong> 华清大学紫荆学生公寓淋浴系统硬件架构与实验环境。(a) 无隔板三节点拓扑空间；(b) 顶置式末端流体输出节点；(c) 存在时钟漂移漏洞的异步计费与时序控制终端；(d) 核心温度调节枢纽与 RTP 释放阀。
+        为了实现极限状态下的成功洗浴，我们对紫荆公寓洗浴系统的底层硬件和计费程序进行了逆向工程。我们惊喜地发掘了两大核心“系统漏洞”，这也构成了本研究的物理基础：
       </p>
 
       <h3 class="title is-5">1. 时钟漂移漏洞 (Clock Drift)</h3>
       <p>
-        洗浴计费终端缺乏网络时间协议（NTP）同步。随着学期推进，内置晶振的误差逐渐累积，实际停水时间 $T_{cutoff}$ 可建模为：
+        洗浴计费终端缺乏网络时间同步机制。剥离其技术表象，该漏洞的本质是：<strong>热水计费终端的走时比标准时间更慢，其实际执行“强制停水”的物理时刻往往晚于北京时间 24:00。</strong> 随着学期推进，内置晶振的误差逐渐累积，打卡机上的时间会一天天地变得越来越晚。其实际停水时间 $T_{cutoff}$ 可建模为：
       </p>
       <div class="equation">
         T<sub>cutoff</sub>(d) = T<sub>ddl</sub> + β · d + N(0, σ²)
       </div>
       <p>
-        实测表明，到学期中后段，该漏洞通常能提供长达 4 至 5 分钟的初始延迟容忍度（Delay Tolerance）。
+        实测表明，到学期中后段，由于硬件的老化与不同步，该漏洞通常能为我们在零点后额外提供长达 4 至 5 分钟的初始延迟容忍度。
       </p>
 
       <img src="./static/images/clock_drift.png" class="paper-figure" alt="时钟漂移实测曲线">
       <p class="caption" style="max-width: 80%; margin: 15px auto;">
-        <strong>Figure 3. Clock Drift Accumulation.</strong> 120 天周期内的计费机器时钟偏移实测散点图与线性拟合。这宝贵的几分钟构成了本策略的第一层“时间护城河”。
+        <strong>Figure 2. Clock Drift Accumulation.</strong> 学期内洗浴打卡机时钟漂移量积累实测曲线（实线为均值拟合，阴影带为置信区间）。每天逐渐变晚的打卡机，构成了本策略的第一层“时间护城河”。
       </p>
 
-      <h3 class="title is-5" style="margin-top: 30px;">2. 残存热力池机制 (RTP)</h3>
+      <h3 class="title is-5" style="margin-top: 30px;">2. 残存热力池机制 (Residual Thermal Pool, RTP)</h3>
       <p>
-        当系统切断主水源后，通过将混水阀强制旋转至极冷档位，可触发物理旁路。冷水在喷出前，会将管路死区体积（Dead Zone Volume, $V_{dz}$）内残留的高温水排出。其水温依赖于上一位使用者的离开时间 $\tau_{idle}$，为后续洗浴提供了极其宝贵的 1.5 ~ 3.5 秒纯热水补偿。
+        即便突破了时间护城河，主水源终将被切断。此时，极冷档位可触发冷水管路的物理旁路。简而言之，<strong>即使在系统彻底切断热水之后，只要将淋浴阀门一把拧到“最冷水”的极限档位，不仅系统会重新喷射出冷水，还能凭借剩余水压，强行将管道死区（Dead Zone Volume, $V_{dz}$）内积攒的高温水挤出，让使用者有机会重新获得几秒宝贵的热水洗浴。</strong> 其水温依赖于上一位使用者的离开时间 $\tau_{idle}$，在冰冷的自来水降临前，这为洗浴者提供了极其宝贵的 1.5 ~ 3.5 秒纯热水补偿。
       </p>
+      
+      <img src="./static/images/hardware.png" class="paper-figure" alt="淋浴系统硬件架构与实验环境">
+      <p class="caption" style="max-width: 80%; margin: 15px auto;">
+        <strong>Figure 3. System Hardware Architecture.</strong> 华清大学紫荆学生公寓淋浴系统硬件架构与实验环境。(a) 具备全局视野的无隔板三节点拓扑空间，为横向滑移提供了物理基础；(b) 顶置式末端流体输出节点；(c) 存在时钟漂移漏洞的异步计费与时序控制终端；(d) 核心温度调节枢纽与物理旁路触发装置（即 RTP 释放阀）。
+
+      </p>
+
     </div>
   </div>
 </section>
@@ -179,22 +181,26 @@
 
 <section class="section" id="method">
   <div class="container is-max-desktop">
-    <h2 class="title is-3 has-text-centered">The WTF Framework (MTRB Algorithm)</h2>
+    <h2 class="title is-3 has-text-centered">MTRB Algorithm</h2>
     <div class="content has-text-justified">
       <p>
-        单节点的 RTP 储量显然不足以支撑全套洗浴。依托紫荆公寓单间内三个无遮挡喷头（Node $S_1, S_2, S_3$）的拓扑结构，我们提出了 <strong>多节点接力洗浴法 (Multi-Terminal Relay Bathing, MTRB)</strong>。其核心动作分解如下：
+        单个喷头挤出的几秒钟残存热水，显然不足以支撑全套洗浴流程。依托紫荆公寓单间内通常装有三个无遮挡喷头的结构（Node $S_1, S_2, S_3$），我们提出了 <strong>多节点接力洗浴法 (Multi-Terminal Relay Bathing, MTRB)</strong>。
       </p>
-      
+
+      <p>
+        <strong>洗浴者只需依次将同一淋浴间内三个喷头的阀门全部拧至最左侧（最冷档），轮流压榨它们各自管路内残存的那几秒余热。</strong> 经过作者的肉身实测证实，在主管道完全停水的情况下，仅凭这三个独立喷头拼凑出的残余热水，依然能够奇迹般地支持个体完成一次完整的身体清洁。其具体动作分解与运动学调度如下：
+      </p>
+
       <ul>
         <li><strong>第一阶段：节点 1 压榨。</strong> 在断水瞬间，快速将 $S_1$ 阀门旋转至冷水档极限位置，利用前 2 秒 RTP 热水冲洗头部与上半身。感受到断崖式降温后立即关闭。</li>
-        <li><strong>第二阶段：横向滑移 (Lateral Shift)。</strong> <span class="warning-text">[Safety Warning]</span> 由于沾满沐浴露的瓷砖动摩擦因数极低（$\mu_k \approx 0.1$），个体必须采用低重心贴地拖行（Shuffle Walk）移动至 $S_2$。严禁双脚腾空跳跃，运动学安全方程需满足：$mv^2 / r \leq \mu_k mg$。</li>
-        <li><strong>第三阶段：节点 2 压榨。</strong> 开启 $S_2$ 冷水档，利用 $S_2$ 独有的 RTP 热水冲洗背部及躯干，随后关闭并滑移至 $S_3$。</li>
-        <li><strong>第四阶段：末端节点压榨与冷水收尾。</strong> 开启 $S_3$ 冷水档冲洗下肢，并忍受随之而来的纯冷水，完成最后的深层清洁与清醒仪式。</li>
+        <li><strong>第二阶段：横向滑移 (Lateral Shift)。</strong> <span class="warning-text">[Safety Warning]</span> 由于沾满沐浴露的瓷砖极滑（动摩擦因数 $\mu_k \approx 0.1$），个体必须采用低重心贴地拖行（Shuffle Walk）移动至 $S_2$。严禁双脚腾空跳跃以防侧滑摔倒，运动学安全方程需满足：$mv^2 / r \leq \mu_k mg$。</li>
+        <li><strong>第三阶段：节点 2 压榨。</strong> 开启 $S_2$ 冷水档，利用 $S_2$ 独有的几秒残存热水冲洗背部及躯干，随后关闭并迅速滑移至 $S_3$。</li>
+        <li><strong>第四阶段：末端节点压榨与冷水收尾。</strong> 开启最后一个喷头 $S_3$ 的冷水档冲洗下肢。伴随着最后一点残存热水的耗尽，忍受随之而来的纯冷水，完成深层清洁与清醒仪式。</li>
       </ul>
 
       <img src="./static/images/mtrb.png" class="paper-figure" alt="三喷头空间拓扑与 MTRB 滑移路径">
       <p class="caption" style="max-width: 80%; margin: 15px auto;">
-        <strong>Figure 4. Spatial Routing for MTRB.</strong> 单间三喷头空间拓扑与多节点接力洗浴法的滑移路径示意。洗浴者通过 S<sub>1</sub> → S<sub>2</sub> → S<sub>3</sub> 的次序依次释放各节点残余热水，并以低重心横向滑移控制侧滑风险。
+        <strong>Figure 4. Spatial Routing for MTRB.</strong> 单间三喷头空间拓扑与 MTRB 策略滑移路径示意图。淋浴者通过 S<sub>1</sub> → S<sub>2</sub> → S<sub>3</sub> 的次序依次压榨各节点残余热水，并以低重心滑移控制安全风险。
       </p>
     </div>
   </div>
@@ -207,13 +213,13 @@
     <h2 class="title is-3 has-text-centered">Experimental Results</h2>
     <div class="content">
       <p style="text-align: justify;">
-        我们在极限真实环境下进行了实证评估。评价指标包含：有效抢救热水时长、泡沫残留率（Foam Residue Rate, FRR，越低越好）以及主观从容度（Subjective Composure Index, SCI，1-10分，越高越好）。如表 1 所示，WTF 框架在各项指标上均取得了显著优势。
+        我们在极限真实环境下进行了实证评估。评价指标包含：有效抢救热水时长、泡沫残留率（Foam Residue Rate, FRR，越低越好）以及主观从容度（Subjective Composure Index, SCI，1-10分，越高越好）。如表 1 所示，和一为策略在各项指标上均取得了显著优势。
       </p>
       
       <div class="table-container" style="margin-top: 20px;">
         <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth" style="text-align: center;">
           <caption style="caption-side: bottom; font-size: 0.9em; color: #555; text-align: left; margin-top: 10px;">
-            <strong>Table 1.</strong> 不同策略下的洗浴质量评估数据总结。FRR 低于 5% 即视为基本达到“可体面回寝室”的社会学阈值。
+            <strong>Table 1.</strong> 不同策略下的洗浴质量评估数据总结。FRR 低于 5% 即视为基本达到“可体面回寝室且不被室友嫌弃”的阈值。
           </caption>
           <thead>
             <tr style="background-color: #f5f5f5;">
@@ -243,7 +249,7 @@
               <td>6.8</td>
             </tr>
             <tr style="font-weight: bold; background-color: #e8f4f8;">
-              <td>三节点 MTRB (The WTF Framework)</td>
+              <td>三节点 MTRB (和一为策略)</td>
               <td>7.1</td>
               <td>3.4%</td>
               <td>8.9</td>
@@ -262,10 +268,10 @@
     <h2 class="title is-3 has-text-centered">Acknowledgment</h2>
     <div class="content has-text-justified">
       <p>
-        感谢在深夜使用华清大学紫荆学生公寓 1 号楼 4 单元淋浴间的同学们，你们在流水声中的欢声畅聊，曾伴我们度过无数个熬夜的夜晚。同时，诚挚感谢华清大学公寓管理人员制定的 24:00 停水政策，正是这种对“健康作息”的要求，激发了本文作者探索极限洗浴时间边界的无限潜能。
+        感谢在深夜使用华清大学紫荆学生公寓 1 号楼 4 单元淋浴间的同学们，你们在流水声中的欢声畅聊，曾伴我们度过无数个熬夜的夜晚。感谢华清大学公寓管理人员制定的 24:00 停水政策，正是这种对“健康作息”的要求，激发了本文作者探索极限洗浴时间边界的无限潜能。
       </p>
       <p>
-        此外，我们在此无意致谢那些目睹本文作者“卡点洗澡”后便盲目跟风的投机同学。你们不仅在零点前最危险的极限边缘挤占了本就匮乏的热力资源，更未对底层洗浴机制展开任何深入调研。这种浮躁“治澡态度”，实为“澡界”同仁所不齿。本文的公开发表，亦旨在向此类跟风澡友普及先进且严谨的极限洗浴范式，扫清流毒，以正澡风。
+        不感谢那些曾目睹本文作者“卡点洗澡”后便盲目跟风的投机同学。你们不仅在零点前最危险的极限边缘挤占了本就匮乏的热力资源，更未对底层洗浴机制展开任何深入调研。这种浮躁“治澡态度”，实为“澡界”同仁所不齿。本文的公开发表，亦旨在向此类跟风澡友普及先进且严谨的极限洗浴范式，扫清流毒，以正澡风。
       </p>
     </div>
   </div>
@@ -276,11 +282,11 @@
 <section class="section" id="bibtex">
   <div class="container is-max-desktop content">
     <h2 class="title is-3">BibTeX</h2>
-    <p>如果你觉得本篇“洗澡学”论文对你在深夜 DDL 前的清洁工作有所启发，请考虑引用我们：</p>
+    <p>如果你觉得本篇“洗澡学”论文对你在深夜 DDL 前的洗浴工作有所启发，请考虑引用我们：</p>
     <pre style="color: #333; background-color: #f5f5f5; padding: 20px; border-radius: 5px; font-size: 14px;"><code>@inproceedings{daxindihua2026wtf,
   title={WTF: A Marginal Showerology Scheduling Strategy Based on Multi-Terminal Thermal Bypass and Clock Drift},
   author={大心地滑 and 咸鸭蛋 and Bro, X},
-  booktitle={Proceedings of the Bathing Acceleration in TsingHua Zijing Showeroom Ecosystem (BATHE)},
+  booktitle={Proceedings of the Bathing Acceleration for TsingHua Zijing Showeroom Ecosystem (BATHE)},
   year={2026},
   address={Zijing 1# Building, HuaTsing University},
   note={Best Paper Award Candidate}}</code></pre>
