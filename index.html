@@ -220,11 +220,13 @@
       <div class="table-container" style="margin-top: 20px;">
         <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth" style="text-align: center;">
           <caption style="caption-side: bottom; font-size: 0.9em; color: #555; text-align: left; margin-top: 10px;">
-            <strong>Table 1.</strong> 不同策略下的洗浴质量评估数据总结。FRR 低于 5% 即视为基本达到“可体面回寝室且不被室友嫌弃”的阈值。
+            <strong>Table 1.</strong> 不同策略下的洗浴质量评估数据总结。FRR 低于 5% 即视为基本达到“可体面回寝室且不被室友嫌弃”的阈值。<br>
+            <em>*注：标准极限洗浴（Baseline）的基础边界条件设定为 5 分钟（300.0 秒）。MTRB 的总时长包含了时钟漂移基础增益与断水后压榨出的 7.1 秒极限物理抢救时长。</em>
           </caption>
           <thead>
             <tr style="background-color: #f5f5f5;">
               <th style="text-align: center;">采用策略 (Strategy)</th>
+              <th style="text-align: center;">有效洗澡总时长 (秒)</th>
               <th style="text-align: center;">平均延长热水 (秒)</th>
               <th style="text-align: center;">平均 FRR $\downarrow$</th>
               <th style="text-align: center;">SCI (1-10) $\uparrow$</th>
@@ -233,25 +235,29 @@
           <tbody>
             <tr>
               <td>无干预 (Baseline)</td>
+              <td>300.0</td>
               <td>0.0</td>
               <td>65.2%</td>
               <td>2.1</td>
             </tr>
             <tr>
               <td>仅利用时钟漂移</td>
-              <td>N/A (取决于日期)</td>
+              <td>345.0 ~ 435.0</td>
+              <td>45.0 ~ 135.0</td>
               <td>32.5%</td>
               <td>5.4</td>
             </tr>
             <tr>
               <td>单节点冷水档利用 (Single RTP)</td>
+              <td>302.3</td>
               <td>2.3</td>
               <td>18.7%</td>
               <td>6.8</td>
             </tr>
             <tr style="font-weight: bold; background-color: #e8f4f8;">
-              <td>三节点 MTRB (和一为策略)</td>
-              <td>7.1</td>
+              <td>三节点 MTRB (The WTF Framework)</td>
+              <td>352.1 ~ 442.1*</td>
+              <td>52.1 ~ 142.1</td>
               <td>3.4%</td>
               <td>8.9</td>
             </tr>
